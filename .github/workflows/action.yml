@@ -19,15 +19,16 @@ jobs:
       # The type of runner that the job will run on
       runs-on: ubuntu-latest
       steps:
-        - uses: actions/checkout@v2
+        - uses: actions/checkout@v3
         - name: Set up Python
-          uses: actions/setup-python@master
+          uses: actions/setup-python@v3
           with:
             python-version: 3.8
         
         - name: Install Python Tools
           shell: bash
           run: |
+            sudo apt-get update
             sudo apt-get install python3-pip python3-setuptools python3-wheel -y
             pip install requests wheel jsonschema
 
@@ -51,12 +52,10 @@ jobs:
             python main.py
           env:
             MIRROR_REG_URL: ${{ secrets.MIRROR_REG_URL }} 
+            MIRROR_REG_TOKEN: ${{ secrets.MIRROR_REG_TOKEN }} 
+            GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
             UPDATE_SDK_INDEX_ADDRESS: ${{ secrets.UPDATE_SDK_INDEX_ADDRESS }}
             UPDATE_SDK_ABROAD_INDEX_ADDRESS: ${{ secrets.UPDATE_SDK_ABROAD_INDEX_ADDRESS }}
-            username: ${{ secrets.GIT_USENAME }}
-            password: ${{ secrets.GIT_PASSWORD }}
-            client_id: ${{ secrets.ID_CLIENT }}
-            client_secret: ${{ secrets.SECRET_CLIENT }}
 
         - name: Generate-Import-Compile
           shell: bash
