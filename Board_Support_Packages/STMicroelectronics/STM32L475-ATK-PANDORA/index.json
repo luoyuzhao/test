@@ -1,0 +1,30 @@
+{
+    "name": "STM32L475-ATK-PANDORA",
+    "vendor": "RealThread",
+    "description": "STM32L475 IoT Board Support Packages",
+    "license": "",
+    "repository": "https://github.com/RT-Thread-Studio/sdk-bsp-stm32l475-atk-pandora.git",
+    "releases": [
+        {
+            "version": "1.0.1",
+            "date": "2021-06-03",
+            "description": "Upgrade driver,add a example for WIFI",
+            "size": "23.1 MB",
+            "url": "https://github.com/RT-Thread-Studio/sdk-bsp-stm32l475-atk-pandora/archive/1.0.1.zip"
+        },
+        {
+            "version": "1.0.0",
+            "date": "2020-09-29",
+            "description": "fixbug",
+            "size": "11 MB",
+            "url": "https://github.com/RT-Thread-Studio/sdk-bsp-stm32l475-atk-pandora/archive/1.0.0.zip"
+        },
+        {
+            "version": "0.1.2",
+            "date": "2020-09-12",
+            "description": "add support rt-thread latest",
+            "size": "11 MB",
+            "url": "https://github.com/RT-Thread-Studio/sdk-bsp-stm32l475-atk-pandora/archive/0.1.2.zip"
+        }
+    ]
+}

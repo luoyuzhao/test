@@ -1,0 +1,14 @@
+{
+    "name": "Debugger_Support_Packages",
+    "description": "RT-Thread Studio Debugger Support Packages",
+    "index": [
+        "J-Link",
+        "ST-Link",
+        "PyOCD",
+        "QEMU",
+        "OpenOCD-KENDRYTE",
+        "WCH-LINK_Debugger",
+        "OpenOCD-Nuvoton",
+        "OpenOCD-HPMicro"
+    ]
+}

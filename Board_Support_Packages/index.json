@@ -1,0 +1,28 @@
+{
+    "name": "Board_Support_Packages",
+    "description": "Device vendor Board Support Packages",
+    "index": [
+        "Allwinner",
+        "AlphaScale",
+        "ARM",
+        "ArteryTek",
+        "Bluetrum",
+        "GigaDevice",
+        "Kendrtye",
+        "MicroChip",
+        "Microsemi",
+        "MindMotion",
+        "NXP",
+        "RaspberryPi",
+        "STMicroelectronics",
+        "Synwit",
+        "TI",
+        "WCH",
+        "essemi",
+        "Nations",
+        "Renesas",
+        "Nuvoton",
+        "HPMicro",
+        "Other"
+    ]
+}

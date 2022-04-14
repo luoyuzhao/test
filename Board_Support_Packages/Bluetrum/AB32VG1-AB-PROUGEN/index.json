@@ -1,0 +1,79 @@
+{
+    "name": "AB32VG1-AB-PROUGEN",
+    "vendor": "Bluetrum",
+    "description": "AB32VG1-AB-PROUGEN Board Support Packages",
+    "license": "",
+    "repository": "https://github.com/BLUETRUM/sdk-bsp-ab32vg1-ab-prougen.git",
+    "releases": [
+        {
+            "version": "1.1.0",
+            "date": "2021-12-02",
+            "description": "add ble support",
+            "size": "7 MB",
+            "url": "https://github.com/BLUETRUM/sdk-bsp-ab32vg1-ab-prougen/archive/refs/tags/1.1.0.zip"
+        },
+        {
+            "version": "1.0.9",
+            "date": "2021-10-11",
+            "description": "convert uintxx_t to rt_uintxx_t",
+            "size": "5 MB",
+            "url": "https://github.com/BLUETRUM/sdk-bsp-ab32vg1-ab-prougen/archive/refs/tags/1.0.9-fix.zip"
+        },
+        {
+            "version": "1.0.8",
+            "date": "2021-08-10",
+            "description": "Optimizing uart and rtc driver",
+            "size": "5 MB",
+            "url": "https://github.com/BLUETRUM/sdk-bsp-ab32vg1-ab-prougen/archive/1.0.8.zip"
+        },
+        {
+            "version": "1.0.7",
+            "date": "2021-06-22",
+            "description": "add romfs mnt",
+            "size": "5 MB",
+            "url": "https://github.com/BLUETRUM/sdk-bsp-ab32vg1-ab-prougen/archive/1.0.7.zip"
+        },
+        {
+            "version": "1.0.6",
+            "date": "2021-05-13",
+            "description": "add fmrx",
+            "size": "5 MB",
+            "url": "https://github.com/BLUETRUM/sdk-bsp-ab32vg1-ab-prougen/archive/1.0.6.zip"
+        },
+        {
+            "version": "1.0.5",
+            "date": "2021-04-09",
+            "description": "add heap size",
+            "size": "5 MB",
+            "url": "https://github.com/BLUETRUM/sdk-bsp-ab32vg1-ab-prougen/archive/1.0.5.zip"
+        },
+        {
+            "version": "1.0.4",
+            "date": "2021-03-19",
+            "description": "add adc rtc support",
+            "size": "5 MB",
+            "url": "https://github.com/BLUETRUM/sdk-bsp-ab32vg1-ab-prougen/archive/1.0.4.zip"
+        },
+        {
+            "version": "1.0.3",
+            "date": "2021-02-01",
+            "description": "add i2c pwm tim wdt support",
+            "size": "5 MB",
+            "url": "https://github.com/BLUETRUM/sdk-bsp-ab32vg1-ab-prougen/archive/1.0.3.zip"
+        },
+        {
+            "version": "1.0.2",
+            "date": "2021-01-25",
+            "description": "add sdio support",
+            "size": "4 MB",
+            "url": "https://github.com/BLUETRUM/sdk-bsp-ab32vg1-ab-prougen/archive/1.0.2.zip"
+        },
+        {
+            "version": "1.0.1",
+            "date": "2020-12-30",
+            "description": "v1.0.1 release",
+            "size": "4 MB",
+            "url": "https://github.com/BLUETRUM/sdk-bsp-ab32vg1-ab-prougen/archive/1.0.1.zip"
+        }
+    ]
+}
