@@ -5,7 +5,7 @@ name: sdk-check
 on:
   # Runs at 16:00 UTC on the 1st of every month
   schedule:
-    - cron:  '10 * * * *'
+    - cron:  '1 * * * *'
   push:
     branches:
       - master
