@@ -19,12 +19,6 @@ jobs:
           uses: actions/setup-python@v3
           with:
             python-version: 3.8
-        - name: Cache
-          id: cache-temp
-          uses: actions/cache@v3
-          with:
-            path: ${{ github.workspace }}/caches
-            key: ${{ hashFiles('temp_update_pkgs.json') }}
         - name: Install Python Tools
           shell: bash
           run: |
