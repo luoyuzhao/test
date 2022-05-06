@@ -341,8 +341,10 @@ class SdkSyncPackages:
             logging.info("No need to update sdk index")
 
 def main():
+    init_logger()
     with open("temp_update_pkgs.json", "w") as f:
         f.write(str(json.dumps("['123','456','789']")))
+    logging.info("#####################")
 
 if __name__ == "__main__":
     main()
