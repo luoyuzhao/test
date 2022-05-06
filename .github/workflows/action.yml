@@ -21,7 +21,7 @@ jobs:
             python-version: 3.8
         - uses: actions/cache@v3
           with:
-            path: ~/.local/share
+            path: ${{ github.workspace }}
             key: ${{ hashFiles('temp_update_pkgs.json') }}
         - name: Install Python Tools
           shell: bash
