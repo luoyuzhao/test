@@ -25,6 +25,10 @@ jobs:
             sudo apt-get update
             sudo apt-get install python3-pip python3-setuptools python3-wheel -y
             pip install requests wheel jsonschema
+        - uses: actions/cache@v3
+          with:
+            path: ~/.cache/pip
+            key: ${{ hashFiles('temp_update_pkgs.json') }}
         - name: Check SDK Update
           shell: bash
           run: |
