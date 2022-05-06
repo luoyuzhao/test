@@ -341,23 +341,8 @@ class SdkSyncPackages:
             logging.info("No need to update sdk index")
 
 def main():
-    init_logger()
-    generate_all_index = StudioSdkManagerIndex("../index.json")
-    index_content = generate_all_index.generate_all_index("index_all.json")
-
-    # 1. sdk index schema checking
-    generate_all_index.index_schema_check(index_content)
-
-    # 2. get packages need to test and sync
-    update_list = generate_all_index.get_update_list()
-
-    # 3. sync updated sdk package and sdk index
-    sync = SdkSyncPackages(update_list, index_content)
-    if sync.is_master_repo():
-        sync.sync_csp_packages()
-        sync.update_sdk_index()
-    else:
-        logging.info("No need to sync csp or bsp packages")
+    with open("temp_update_pkgs.json", "w") as f:
+        f.write(str(json.dumps("['123','456','789']")))
 
 if __name__ == "__main__":
     main()
