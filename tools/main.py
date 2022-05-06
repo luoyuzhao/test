@@ -342,7 +342,7 @@ class SdkSyncPackages:
 
 def main():
     init_logger()
-    with open("temp_update_pkgs.json", "w") as f:
+    with open("temp_update_pkgs.json", "a") as f:
         f.write(str(json.dumps("['123','456','789']")))
     logging.info("#####################")
 
