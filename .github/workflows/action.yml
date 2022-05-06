@@ -23,7 +23,7 @@ jobs:
           id: cache-temp
           uses: actions/cache@v3
           with:
-            path: ~/cache
+            path: ${{ github.workspace }}
             key: ${{ hashFiles('temp_update_pkgs.json') }}
         - name: Install Python Tools
           shell: bash
