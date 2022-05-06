@@ -22,7 +22,7 @@ jobs:
         - uses: actions/cache@v3
           with:
             path: ${{ github.workspace }}
-            key: ${{ hashFiles('temp_update_pkgs.json') }}
+            key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
         - name: Install Python Tools
           shell: bash
           run: |
