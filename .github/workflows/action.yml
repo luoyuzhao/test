@@ -5,8 +5,8 @@ name: sdk-check
 on:
   # Runs at 16:00 UTC on the 1st of every month
   workflow_dispatch:
-  schedule:
-    - cron:  '*/5 * * * *'
+  #schedule:
+  #  - cron:  '*/5 * * * *'
 
 jobs:
   # This workflow contains a single job called "build"
@@ -23,7 +23,7 @@ jobs:
           id: cache-temp
           uses: actions/cache@v3
           with:
-            path: ${{ github.workspace }}
+            path: ~/.cache
             key: ${{ hashFiles('temp_update_pkgs.json') }}
         - name: Install Python Tools
           shell: bash
