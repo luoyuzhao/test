@@ -342,10 +342,10 @@ class SdkSyncPackages:
 
 def main():
     init_logger()
-    with open('.lock', "r") as f:
+    with open('../.lock', "r") as f:
         text = json.loads(f.read())
     print(text)
-    with open(".lock", "w") as f:
+    with open("../.lock", "w") as f:
         f.write('true')
     logging.info("#####################")
 
