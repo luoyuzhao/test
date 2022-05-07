@@ -342,11 +342,11 @@ class SdkSyncPackages:
 
 def main():
     init_logger()
-    with open('temp_update_pkgs.json', "r") as f:
+    with open('.lock', "r") as f:
         text = json.loads(f.read())
     print(text)
-    with open("temp_update_pkgs.json", "a") as f:
-        f.write(str(json.dumps("['123','456','789']")))
+    with open(".lock", "w") as f:
+        f.write('true')
     logging.info("#####################")
 
 if __name__ == "__main__":
