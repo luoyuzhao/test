@@ -342,6 +342,9 @@ class SdkSyncPackages:
 
 def main():
     init_logger()
+    with open('/rt-thread/sdk-index/tools/bsp_update_url.json', "r") as f:
+        text = json.loads(f.read())
+    print(text)
     with open("temp_update_pkgs.json", "a") as f:
         f.write(str(json.dumps("['123','456','789','123','456','789','123','456','789','123','456','789','123','456','789','123','456','789','123','456','789','123','456','789','123','456','789','123','456','789','123','456','789','123','456','789']")))
     logging.info("#####################")
