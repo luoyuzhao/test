@@ -341,13 +341,7 @@ class SdkSyncPackages:
             logging.info("No need to update sdk index")
 
 def main():
-    init_logger()
-    with open('../.lock', "r") as f:
-        text = json.loads(f.read())
-    print(text)
-    with open("../.lock", "w") as f:
-        f.write('true')
-    logging.info("#####################")
+    exit(1)
 
 if __name__ == "__main__":
     main()
