@@ -30,45 +30,4 @@ jobs:
             sudo apt-get install python3-pip python3-setuptools python3-wheel -y
             pip install requests wheel jsonschema
 
-        - name: Config Github SSH
-          shell: bash
-          if: ${{ github.ref == 'refs/heads/master' }}  
-          env:
-            GITEE_PRIVATE_KEY: ${{ secrets.SSH_SECRET_GITEE }}
-          run: |
-            echo "Master trigger"
-            mkdir -p ~/.ssh/
-            echo "$GITEE_PRIVATE_KEY" > ~/.ssh/id_rsa
-            chmod 600 ~/.ssh/id_rsa
-            ssh-keyscan -t rsa gitee.com >> ~/.ssh/known_hosts
-            echo "IS_MASTER_REPO=true" >> $GITHUB_ENV
-            
-        - name: Check SDK Update
-          shell: bash
-          run: |
-            cd ${{ github.workspace }}/tools
-            python main.py
-          env:
-            MIRROR_REG_URL: ${{ secrets.MIRROR_REG_URL }} 
-            MIRROR_REG_TOKEN: ${{ secrets.MIRROR_REG_TOKEN }} 
-            GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
-            UPDATE_SDK_INDEX_ADDRESS: ${{ secrets.UPDATE_SDK_INDEX_ADDRESS }}
-            UPDATE_SDK_ABROAD_INDEX_ADDRESS: ${{ secrets.UPDATE_SDK_ABROAD_INDEX_ADDRESS }}
-
-        - name: Generate-Import-Compile
-          shell: bash
-          if: ${{ github.ref != 'refs/heads/master' && success() }}
-          run: |
-            cd ${{ github.workspace }}
-            docker pull realthread/sdk_index:latest
-            docker run -v "`pwd`:/rt-thread/sdk-index" -i realthread/sdk_index:latest bash -c ". /etc/profile && python3 /rt-thread/sdk-index/tools/sdk_check/sdk_check.py"
-            cd ${{ github.workspace }}/tools/sdk_check && python check_report.py
-            
-        - name: Upload Results
-          if: ${{ github.ref != 'refs/heads/master' && success() }}
-          uses: actions/upload-artifact@v2
-          continue-on-error: True
-          with:
-            name: check-report
-            path: ${{ github.workspace }}/tools/sdk_check/report.html
 
