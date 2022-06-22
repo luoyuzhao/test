@@ -28,6 +28,6 @@ jobs:
           run: |
             sudo apt-get update
             sudo apt-get install python3-pip python3-setuptools python3-wheel -y
-            pip install requests wheel jsonschema
+            pip3 install requests wheel jsonschema
 
 
