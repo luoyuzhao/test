@@ -19,7 +19,7 @@ import urllib.parse
 import urllib.request
 from jsonschema import RefResolver, Draft7Validator, FormatChecker
 from package_sync import PackagesSync
-
+import time
 
 def init_logger():
     log_format = "[%(filename)s %(lineno)d %(levelname)s] %(message)s "
@@ -203,32 +203,32 @@ class SdkSyncPackages:
         if len(self.update_list) == 0:
             logging.info("Update list is empty, no need to sync.")
             return
+        for url in self.update_list:
+        #url = self.update_list[0]
+            logging.info(url)
 
-        url = self.update_list[0]
-        logging.info(url)
+            tmp = url.split('/')
+            logging.info(tmp[4])
 
-        tmp = url.split('/')
-        logging.info(tmp[4])
+            # get packages repository
+            work_path = r'sync_local_repo/github_mirror'
+            mirror_file = r'sync_local_repo/github_mirror_file'
+            mirror_url = 'https://gitee.com/RT-Thread-Studio-Mirror'
+            mirror_org_name = "RT-Thread-Studio-Mirror"
 
-        # get packages repository
-        work_path = r'sync_local_repo/github_mirror'
-        mirror_file = r'sync_local_repo/github_mirror_file'
-        mirror_url = 'https://gitee.com/RT-Thread-Studio-Mirror'
-        mirror_org_name = "RT-Thread-Studio-Mirror"
+            if 'GITEE_TOKEN' in os.environ:
+                logging.info("Find sync token")
+                token = os.environ['GITEE_TOKEN']
+                packages_update = PackagesSync(
+                    work_path, mirror_file, mirror_url, token, mirror_org_name)
 
-        if 'GITEE_TOKEN' in os.environ:
-            logging.info("Find sync token")
-            token = os.environ['GITEE_TOKEN']
-            packages_update = PackagesSync(
-                work_path, mirror_file, mirror_url, token, mirror_org_name)
+                # create new repo in mirror
+                packages_update.create_repo_in_gitee(tmp[4])
 
-            # create new repo in mirror
-            packages_update.create_repo_in_gitee(tmp[4])
-
-            # clone repo and push
-            packages_update.fetch_packages_from_git(url)
-        else:
-            logging.info("No sync token")
+                # clone repo and push
+                packages_update.fetch_packages_from_git(url)
+            else:
+                logging.info("No sync token")
 
     def sync_csp_packages(self):
         logging.info("Ready to sync csp or bsp packages")
@@ -341,7 +341,49 @@ class SdkSyncPackages:
             logging.info("No need to update sdk index")
 
 def main():
-    exit(1)
+    init_logger()
+    generate_all_index = StudioSdkManagerIndex("../index.json")
+    index_content = generate_all_index.generate_all_index("index_all.json")
+
+    # 1. sdk index schema checking
+    generate_all_index.index_schema_check(index_content)
+
+    # 2. get packages need to test and sync
+    # if locked waiting until unlock or 30min later
+    count=0
+    while (get_merge_lock()=='true' and count<=30):
+        logging.info("Merge is locked retrying in 10Secs...")
+        time.sleep(10)
+        count=count+1
+    if(count>30):
+        logging.info("Merge is locked more than 5min,skip the lock")
+    
+    update_list = generate_all_index.get_update_list()
+    # 3. sync updated sdk package and sdk index
+    sync = SdkSyncPackages(update_list, index_content)
+    if sync.is_master_repo():
+        set_merge_lock('true')
+        logging.info("Merge Lock")
+        try:
+            sync.sync_csp_packages()
+            sync.update_sdk_index()
+            set_merge_lock('false')
+            logging.info("Merge Unlock")
+        except Exception as e:
+            logging.error("Error message: {0}.".format(e))
+            #set_merge_lock('false')
+            logging.info("Merge Unlock")
+            exit(1)
+    else:
+        logging.info("No need to sync csp or bsp packages")
+
+def get_merge_lock():
+    response = requests.get("https://api.rt-thread.org/studio/sdkmanager/mergelock")
+    return response.text
+
+def set_merge_lock(val):
+    response = requests.get("https://api.rt-thread.org/studio/sdkmanager/mergelock/{0}".format(val))
+    return response.text
 
 if __name__ == "__main__":
     main()
