@@ -6,10 +6,7 @@ on:
   # Runs at 16:00 UTC on the 1st of every month
   workflow_dispatch:
   schedule:
-    - cron:  '*/10 * * * *'
-  #push:
-  #  branches:
-  #    - main
+    - cron:  '*/30 * * * *'
   
 jobs:
   # This workflow contains a single job called "build"
