@@ -17,20 +17,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v3
-        - name: Set up Python
-          uses: actions/setup-python@v3
-          with:
-            python-version: 3.8
-        - uses: actions/cache@v3
-          with:
-            path: ${{ github.workspace }}
-            key: ${{ hashFiles('**/.lock') }}
-        - name: Install Python Tools
-          shell: bash
-          run: |
-            sudo apt-get update
-            sudo apt-get install python3-pip python3-setuptools python3-wheel -y
-            pip install requests wheel jsonschema
+
         - name: Config Github SSH
           shell: bash
           env:
