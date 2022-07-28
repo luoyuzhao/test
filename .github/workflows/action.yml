@@ -3,8 +3,7 @@ name: sdk-check
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
-  workflow_dispatch:
-  # Runs at 16:00 UTC on the 1st of every month
+  # Run every 1 hour
   schedule:
     - cron:  '*/30 * * * *'
   push:
@@ -17,16 +16,22 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-      # The type of runner that the job will run on
+      # 指定操作系统类型
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v3
-        
         - name: Set up Python
           uses: actions/setup-python@v3
           with:
             python-version: 3.8
-            
+        #初始化python环境
+        - name: Install Python Tools
+          shell: bash
+          run: |
+            sudo apt-get update
+            sudo apt-get install python3-pip python3-setuptools python3-wheel -y
+            pip install requests wheel jsonschema
+        #配置ssh
         - name: Config Github SSH
           shell: bash
           env:
@@ -36,3 +41,26 @@ jobs:
           run: |
             echo $EVENT_NAME
             echo $RUN_ID
+            mkdir -p ~/.ssh/
+            echo "$GITEE_PRIVATE_KEY" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+            ssh-keyscan -t rsa gitee.com >> ~/.ssh/known_hosts
+            echo "IS_MASTER_REPO=true" >> $GITHUB_ENV
+        #如果是主仓直接检查github和gitee并进行同步和sdk-index-server状态更新
+        - name: Sync-Gitee-Mirror
+          shell: bash
+          if: ${{ github.ref == 'refs/heads/master' }} 
+          run: |
+            cd ${{ github.workspace }}/scripts
+            python sync_gitee.py
+          env:
+            GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+        #不是主仓直接检查提交的资源是否能正常编译
+        - name: Generate-Import-Compile-Test
+          shell: bash
+          if: ${{ github.ref != 'refs/heads/master' }}
+          run: |
+            cd ${{ github.workspace }}
+            docker pull realthread/sdk_index:latest
+            docker run -v "`pwd`:/rt-thread/sdk-index" -i realthread/sdk_index:latest bash -c ". /etc/profile && python3 /rt-thread/sdk-index/scripts/check_sdk.py"
+
