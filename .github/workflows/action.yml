@@ -7,7 +7,9 @@ on:
   workflow_dispatch:
   schedule:
     - cron:  '*/30 * * * *'
-  
+  push:
+    branches:
+      - master
 jobs:
   # This workflow contains a single job called "build"
   build:
@@ -33,6 +35,8 @@ jobs:
           shell: bash
           env:
             GITEE_PRIVATE_KEY: ${{ secrets.SSH_SECRET_GITEE }}
-            EVENT_CONTEXT: ${{ toJSON(github.event) }}
+            EVENT_NAME: ${{ github.event_name }}
+            RUN_ID: ${{ github.run_id }}
           run: |
-            echo $EVENT_CONTEXT
+            echo $EVENT_NAME
+            echo $RUN_ID
