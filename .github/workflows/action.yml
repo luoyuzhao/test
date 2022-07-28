@@ -4,11 +4,14 @@ name: sdk-check
 # events but only for the master branch
 on:
   # Runs at 16:00 UTC on the 1st of every month
-
   schedule:
-    - cron:  '*/20 * * * *'
+    - cron:  '*/30 * * * *'
   push:
     branches:
+      - master
+  pull_request:
+    branches:
+      - master
       - master
 jobs:
   # This workflow contains a single job called "build"
