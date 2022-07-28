@@ -64,6 +64,13 @@ jobs:
         #如果是MERGE直接更新Github-SDKINDEX
         - name: Update-Github-Sdk-Index
           shell: bash
+          env:
+            GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+            GITEE_PRIVATE_KEY: ${{ secrets.SSH_SECRET_GITEE }}
+            EVENT_NAME: ${{ github.event_name }}
+            RUN_ID: ${{ github.run_id }}
+            REPOSITORY: ${{ github.repository }}
+            REPOSITORY_URL: ${{ github.repositoryUrl }}
           if: ${{ github.event_name == 'push' }} 
           run: |
             cd ${{ github.workspace }}/scripts
