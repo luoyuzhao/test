@@ -5,8 +5,8 @@ name: sdk-check
 on:
   # Runs at 16:00 UTC on the 1st of every month
   workflow_dispatch:
-  #schedule:
-  #  - cron:  '*/5 * * * *'
+  schedule:
+    - cron:  '*/5 * * * *'
   push:
     branches:
       - main
@@ -32,8 +32,10 @@ jobs:
             sudo apt-get update
             sudo apt-get install python3-pip python3-setuptools python3-wheel -y
             pip install requests wheel jsonschema
-        - name: Check SDK Update
+        - name: Config Github SSH
           shell: bash
+          env:
+            GITEE_PRIVATE_KEY: ${{ secrets.SSH_SECRET_GITEE }}
+            EVENT_CONTEXT: ${{ toJSON(github.event) }}
           run: |
-            cd ${{ github.workspace }}/tools
-            python main.py
+            echo $EVENT_CONTEXT
