@@ -67,5 +67,5 @@ jobs:
           if: ${{ github.event_name == 'push' }} 
           run: |
             cd ${{ github.workspace }}/scripts
-            python merge_sdk.py
+            python sync_gitee.py
 
