@@ -35,27 +35,19 @@ jobs:
         - name: Config Github SSH
           shell: bash
           env:
-            GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
             GITEE_PRIVATE_KEY: ${{ secrets.SSH_SECRET_GITEE }}
-            EVENT_NAME: ${{ github.event_name }}
-            RUN_ID: ${{ github.run_id }}
-            REPOSITORY: ${{ github.repository }}
-            REPOSITORY_URL: ${{ github.repositoryUrl }}
           run: |
             mkdir -p ~/.ssh/
             echo "$GITEE_PRIVATE_KEY" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
             ssh-keyscan -t rsa gitee.com >> ~/.ssh/known_hosts
-        #如果是定时任务直接检查github和gitee并进行同步和sdk-index-server状态更新
-        - name: Sync-Gitee-Mirror
-          shell: bash
-          if: ${{ github.event_name == 'schedule' }} 
-          run: |
-            cd ${{ github.workspace }}/scripts
-            python sync_gitee.py
         #如果是PR直接检查提交的资源是否能正常编译
         - name: Generate-Import-Compile-Test
           shell: bash
+          env:
+            RUN_ID: ${{ github.run_id }}
+            REPOSITORY: ${{ github.repository }}
+            REPOSITORY_URL: ${{ github.repositoryUrl }}
           if: ${{ github.event_name == 'pull_request' }}
           run: |
             cd ${{ github.workspace }}
@@ -65,13 +57,19 @@ jobs:
         - name: Update-Github-Sdk-Index
           shell: bash
           env:
-            GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
-            GITEE_PRIVATE_KEY: ${{ secrets.SSH_SECRET_GITEE }}
-            EVENT_NAME: ${{ github.event_name }}
             RUN_ID: ${{ github.run_id }}
             REPOSITORY: ${{ github.repository }}
             REPOSITORY_URL: ${{ github.repositoryUrl }}
           if: ${{ github.event_name == 'push' }} 
+          run: |
+            cd ${{ github.workspace }}/scripts
+            python merge_sdk.py
+        #如果是定时任务直接检查github和gitee并进行同步并更新sdk-index-server
+        - name: Sync-Gitee-Mirror
+          shell: bash
+          env:
+            GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+          if: ${{ github.event_name == 'schedule' || (github.event_name == 'push' && success()) }} 
           run: |
             cd ${{ github.workspace }}/scripts
             python sync_gitee.py
