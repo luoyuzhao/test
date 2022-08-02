@@ -8,10 +8,10 @@ on:
     - cron:  '*/60 * * * *'
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   # This workflow contains a single job called "build"
