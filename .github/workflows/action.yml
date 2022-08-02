@@ -8,10 +8,10 @@ on:
     - cron:  '*/60 * * * *'
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   # This workflow contains a single job called "build"
@@ -28,7 +28,7 @@ jobs:
         - name: Install Python Tools
           shell: bash
           run: |
-            sudo apt-get update && apt-get -y upgrade
+            sudo apt-get update
             sudo python -m pip install --upgrade pip
             sudo apt-get install python3-pip python3-setuptools python3-wheel -y
             pip install requests wheel jsonschema wget pyyaml pytest pytest-sugar pytest-html rt-thread-studio
