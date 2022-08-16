@@ -4,8 +4,8 @@ name: sdk-check
 # events but only for the master branch
 on:
   # Run every 1 hour
-  schedule:
-    - cron:  '*/60 * * * *'
+  #schedule:
+  #  - cron:  '*/60 * * * *'
   push:
     branches:
       - main
